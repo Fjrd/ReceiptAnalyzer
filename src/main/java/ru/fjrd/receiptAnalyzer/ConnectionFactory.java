@@ -1,38 +1,53 @@
 package ru.fjrd.receiptAnalyzer;
 
+import javax.naming.InitialContext;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
 import java.util.Properties;
 
-
-public class DataBase {
-    private static Properties properties;
+public class ConnectionFactory {
+    private static ConnectionFactory instance;
     private static Connection connection;
     private static Statement statement;
     private static ResultSet resultSet;
-    private static String dbUrl;
+    private static String connectionUrl;
     private static String dbName;
     private static String dbUser;
     private static String dbPassword;
-    private static String dbServerTimezone;
 
-    public static void loadProperties(String path) throws IOException {
-        properties = new Properties();
+    private ConnectionFactory() throws SQLException, IOException {
+        loadProperties("src/main/resources/db.properties");
+        createConnection();
+    }
+
+    public static ConnectionFactory getInstance() throws SQLException, IOException {
+        if (instance ==null){
+            instance = new ConnectionFactory();
+        }
+        return instance;
+    }
+
+    public void createConnection() throws SQLException {
+        connection = DriverManager.getConnection(
+                connectionUrl + dbName + "?useTimezone=true&serverTimezone=UTC", dbUser, dbPassword);
+    }
+
+    public Connection getConnection() throws SQLException {
+
+        return connection;
+    }
+
+    public void loadProperties(String path) throws IOException {
+        Properties properties = new Properties();
         properties.load(new FileInputStream(path));
-        dbUrl = properties.getProperty("db.url");
+        connectionUrl = properties.getProperty("db.url");
         dbName = properties.getProperty("db.name");
         dbUser = properties.getProperty("db.user");
         dbPassword = properties.getProperty("db.password");
-        dbServerTimezone = properties.getProperty("db.serverTimezone");
     }
 
-    public static void getConnection() throws SQLException {
-        connection = DriverManager.getConnection(dbUrl + dbName + "?useTimezone=true&serverTimezone=UTC", dbUser, dbPassword);
-
-    }
-
-    public static void selectAll() throws SQLException {
+    public void selectAll() throws SQLException {
         statement = connection.createStatement();
         String query = "SELECT * FROM item";
         resultSet = statement.executeQuery(query);
@@ -44,7 +59,7 @@ public class DataBase {
         }
     }
 
-    public static void insert() throws SQLException {
+    public void insert() throws SQLException {
         String sql2 = "INSERT INTO Users (username, password, fullname, email) VALUES (?, ?, ?, ?)";
 
         PreparedStatement statement = connection.prepareStatement(sql2);
