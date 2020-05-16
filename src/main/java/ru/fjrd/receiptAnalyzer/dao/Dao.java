@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface Dao<T> {
-    Optional<T> get(long id);
+    Optional<T> get(int id);
 
     List<T> getAll() throws IOException, SQLException;
 
-    void save(T t);
+    void save(T model);
 
-    void update(T t, String[] params);
+    void update(T model, String[] params);
 
-    void delete(T t);
+    void delete(int id);
 }

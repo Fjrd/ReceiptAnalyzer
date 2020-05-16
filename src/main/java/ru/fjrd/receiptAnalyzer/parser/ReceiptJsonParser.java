@@ -1,4 +1,4 @@
-package ru.fjrd.receiptAnalyzer;
+package ru.fjrd.receiptAnalyzer.parser;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;

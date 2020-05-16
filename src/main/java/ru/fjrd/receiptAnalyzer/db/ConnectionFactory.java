@@ -1,6 +1,5 @@
-package ru.fjrd.receiptAnalyzer;
+package ru.fjrd.receiptAnalyzer.db;
 
-import javax.naming.InitialContext;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
@@ -47,6 +46,7 @@ public class ConnectionFactory {
         dbPassword = properties.getProperty("db.password");
     }
 
+    //???
     public void selectAll() throws SQLException {
         statement = connection.createStatement();
         String query = "SELECT * FROM item";
@@ -59,6 +59,7 @@ public class ConnectionFactory {
         }
     }
 
+    //???
     public void insert() throws SQLException {
         String sql2 = "INSERT INTO Users (username, password, fullname, email) VALUES (?, ?, ?, ?)";
 
