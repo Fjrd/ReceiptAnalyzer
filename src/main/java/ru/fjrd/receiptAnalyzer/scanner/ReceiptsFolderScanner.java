@@ -1,5 +1,7 @@
 package ru.fjrd.receiptAnalyzer.scanner;
 
+import ru.fjrd.receiptAnalyzer.parser.ReceiptJsonParser;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.*;
@@ -11,35 +13,21 @@ public class ReceiptsFolderScanner {
     String processedReceiptsFolderPath;
 
     public void createWatchService() throws IOException, InterruptedException {
-        // get path object pointing to the directory we wish to monitor
+        WatchService watchService = FileSystems.getDefault().newWatchService();
         Path path = Paths.get(newReceiptsFolderPath);
 
-        // get watch service which will monitor the directory
-        WatchService watcher = path.getFileSystem().newWatchService();
-        // associate watch service with the directory to listen to the event
-        // types
-
-        path.register(watcher, StandardWatchEventKinds.ENTRY_CREATE);
+        WatchKey watchKey = path.register(watchService, StandardWatchEventKinds.ENTRY_CREATE);
         System.out.println("Monitoring directory for changes...");
 
-        // listen to events
-        WatchKey watchKey = watcher.take();
+        while (true) {
 
-        // get list of events as they occur
-        List<WatchEvent<?>> events = watchKey.pollEvents();
-
-        //iterate over events
-        for (WatchEvent event : events) {
-
-            //check if the event refers to a new file created
-            if (event.kind() == StandardWatchEventKinds.ENTRY_CREATE) {
-
-                //print file name which is newly created
-                System.out.println("Created: " + event.context().toString());
+            for (WatchEvent<?> event : watchKey.pollEvents()) {
+                System.out.println(event.kind());
+                Path file = path.resolve((Path) event.context());
+                System.out.println(file.toString());
+                ReceiptJsonParser.parseCheck(file.toString());
             }
         }
-    }
-    public ReceiptsFolderScanner() throws IOException {
     }
 
     public void loadProperties(String path) throws IOException {

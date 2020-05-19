@@ -3,9 +3,12 @@
   "discount":null,
   "discountSum":null,
   "ecashTotalSum":236900,
-  "fiscalDocumentNumber":25480, //фд - фискальный документ (номер чека)
-  "fiscalDriveNumber":"9251440300047118", //фн - фискальный накопитель (заводской номер)
-  "fiscalSign":413857816, //фп - фискальный признак (контрольное значение фд)
+  "фд":"фискальный документ(номер чека)",
+  "fiscalDocumentNumber":25480,
+  "фн":"фискальный накопитель (заводской номер)",
+  "fiscalDriveNumber":"9251440300047118",
+  "фп":"фискальный признак (контрольное значение фд)",
+  "fiscalSign":413857816,
   "items":[
     {"modifiers":null,"name":"Пакет ЛЕНТА майка 9кг","nds0":null,"nds10":null,"nds18":null,"ndsCalculated10":null,"ndsCalculated18":null,"ndsNo":null,"price":379,"quantity":1.0,"sum":379,"storno":false},
     {"modifiers":null,"name":"Бананы вес 1кг","nds0":null,"nds10":null,"nds18":null,"ndsCalculated10":null,"ndsCalculated18":null,"ndsNo":null,"price":4989,"quantity":0.574,"sum":2864,"storno":false},
