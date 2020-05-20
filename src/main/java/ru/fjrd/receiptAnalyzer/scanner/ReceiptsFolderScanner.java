@@ -25,7 +25,7 @@ public class ReceiptsFolderScanner {
                 System.out.println(event.kind());
                 Path file = path.resolve((Path) event.context());
                 System.out.println(file.toString());
-                ReceiptJsonParser.parseCheck(file.toString());
+                ReceiptJsonParser.parseCheck(file.toString()).toScreen();
             }
         }
     }

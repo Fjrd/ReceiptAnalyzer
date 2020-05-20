@@ -1,18 +1,26 @@
 package ru.fjrd.receiptAnalyzer.parser;
 
 import com.google.gson.Gson;
-import com.google.gson.stream.JsonReader;
 import ru.fjrd.receiptAnalyzer.model.Receipt;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class ReceiptJsonParser {
-    public static Receipt parseCheck (String path) throws FileNotFoundException {
-        JsonReader jsonReader = new JsonReader(new FileReader(new File(path)));
+    public static Receipt parseCheck (String path) throws IOException {
+        String jsonFile = prepareJson(path);
         Gson gson = new Gson();
-        Receipt receipt = gson.fromJson(jsonReader, Receipt.class);
+        Receipt receipt = gson.fromJson(jsonFile, Receipt.class);
         return receipt;
+    }
+    public static String prepareJson(String path) throws IOException {
+        String content = Files.readString(Paths.get(path));
+        if ((content.charAt(0) == '[') &&
+            (content.charAt(content.length()-2) == ']')){
+                content = content.substring(1, content.length()-1);
+        }
+        content = content.substring(0, content.length()-1);
+        return content;
     }
 }

@@ -12,9 +12,8 @@ public class Main {
     public static void main(String[] args) throws IOException, SQLException, InterruptedException {
         ReceiptsFolderScanner receiptsFolderScanner = new ReceiptsFolderScanner();
         receiptsFolderScanner.loadProperties("src/main/resources/configuration.properties");
-        //receiptsFolderScanner.createWatchService();
-        //ReceiptJsonParser.parseCheck("src/main/java/ru/fjrd/receiptAnalyzer/test.json").toScreen();
-        ReceiptJsonParser.parseCheck("/home/fjrd/Dropbox/Receipts/1.json").toScreen();
+        receiptsFolderScanner.createWatchService();
+        //ReceiptJsonParser.parseCheck("/home/fjrd/Dropbox/Receipts/1.json").toScreen();
 
     }
 }
